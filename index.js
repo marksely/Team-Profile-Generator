@@ -21,12 +21,6 @@ const questions = [
         type: 'input',
         message: 'What is the team managers office number?',
         name: 'manager-office',
-    },
-    {
-        type: 'list',
-        message: 'What type of team member would you like to add?',
-        choices: ['Enginner', 'Intern', "I don't want to add any more team members"],
-        name: 'member-type',
     }
 ];
 
@@ -82,46 +76,58 @@ function inIt() {
     .prompt(questions)
     .then((answers) => {
         console.log(answers);
+        chooseTeamMemberType();
     })
     .catch((err) => {
         console.log(err);
-        chooseTeamMemberType();
     })
 }
 
+//prompts to pick what type of team member user wants
 function chooseTeamMemberType() {
     inquirer
     .prompt(
         {
         type: 'list',
         message: 'What type of team member would you like to add?',
-        choices: ['Enginner', 'Intern', "I don't want to add any more team members"],
-        name: 'member-type',
+        choices: ['Engineer', 'Intern', "I don't want to add any more team members"],
+        name: 'member',
     })
-    .then((answer) => {
-        console.log(answer)
-        if(answer.member-type === 'Engineer') {
-            promptEngineerQuestions();
-        } else if(answer.member-type === 'Intern'){
-            promptInternQuestions();
-        } else {
-            return; //aka get application to quit and generate html
+    .then(data => {
+        console.log(data);
+        switch(data.member) {
+            case 'Engineer':
+                promptEngineerQuestions();
+                break;
+            case 'Intern':
+                promptInternQuestions();
+                break;
+            default:
+                createTeam();
+                break;
         }
     })
 }
 
-
-function promptEnginerQuestions() {
+//prompts questions about engineer
+function promptEngineerQuestions() {
     inquirer
-    .prompt(
-
-    )
+    .prompt(engineerQuestions)
+    .then((answers) => {
+        console.log(answers);
+        chooseTeamMemberType();
+    })
 }
 
+// prompts questions about intern
 function promptInternQuestions() {
     inquirer
-    .prompt(
-
-    )
+    .prompt(internQuestions)
+    .then((answers) => {
+        console.log(answers);
+        chooseTeamMemberType();
+    })
 }
+
+// initalizes app
 inIt();
