@@ -1,26 +1,33 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const Employee = require('./lib/employee');
+const Manager = require('./lib/manager');
+const Engineer = require('./lib/engineer');
+const Intern = require('./lib/intern');
+const engineerCard = require('./lib/engineerCard');
+let team = [];
+let middlePage = '';
 
 const questions = [
     {
         type: 'input',
         message: "What is the team manager's name?",
-        name: 'manager-name',
+        name: 'name',
     },
     {
         type: 'input',
         message: "What is the team manager's id?",
-        name: 'manager-id',
+        name: 'id',
     },
     {
         type: 'input',
         message: 'What is the team managers email?',
-        name: 'manager-email',
+        name: 'email',
     },
     {
         type: 'input',
         message: 'What is the team managers office number?',
-        name: 'manager-office',
+        name: 'office',
     }
 ];
 
@@ -28,22 +35,22 @@ const engineerQuestions = [
     {
         type: 'input',
         message: "What is the engineers name?",
-        name: 'engineer-name',
+        name: 'name',
     },
     {
         type: 'input',
         message: "What is the engineers id?",
-        name: 'engineer-id',
+        name: 'id',
     },
     {
         type: 'input',
         message: 'What is the engineers email?',
-        name: 'engineer-email',
+        name: 'email',
     },
     {
         type: 'input',
         message: 'What is the engineers GitHub username?',
-        name: 'engineer-office',
+        name: 'github',
     }
 ];
 
@@ -51,22 +58,22 @@ const internQuestions = [
     {
         type: 'input',
         message: "What is the interns name?",
-        name: 'intern-name',
+        name: 'name',
     },
     {
         type: 'input',
         message: "What is the interns id?",
-        name: 'intern-id',
+        name: 'id',
     },
     {
         type: 'input',
         message: 'What is the interns email?',
-        name: 'intern-email',
+        name: 'email',
     },
     {
         type: 'input',
         message: 'What school is the intern from?',
-        name: 'intern-school',
+        name: 'school',
     }
 ];
 
@@ -76,6 +83,8 @@ function inIt() {
     .prompt(questions)
     .then((answers) => {
         console.log(answers);
+        const manager = new Manager(answers.name,answers.id,answers.email,answers.office);
+        team.push(manager);
         chooseTeamMemberType();
     })
     .catch((err) => {
@@ -115,6 +124,11 @@ function promptEngineerQuestions() {
     .prompt(engineerQuestions)
     .then((answers) => {
         console.log(answers);
+        const engineer = new Engineer(answers.name,answers.id,answers.email, answers.github);
+        team.push(engineer);
+        let newEngineerCard = engineerCard.engineerCard(answers);
+        middlePage = middlePage + newEngineerCard;
+        console.log(middlePage);
         chooseTeamMemberType();
     })
 }
@@ -125,9 +139,34 @@ function promptInternQuestions() {
     .prompt(internQuestions)
     .then((answers) => {
         console.log(answers);
+        const intern = new Intern(answers.name,answers.id,answers.email,answers.school);
+        team.push(intern);
         chooseTeamMemberType();
+    })
+}
+
+function createTeam() {
+    console.log(team);
+    const fullPage = topOfPage + middlePage + bottomOfPage;
+    fs.writeFile('index.html', fullPage, (error) => {
+        console.log(error);
     })
 }
 
 // initalizes app
 inIt();
+
+const topOfPage = 
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>`;
+
+const bottomOfPage = 
+`</body>
+</html>`;
