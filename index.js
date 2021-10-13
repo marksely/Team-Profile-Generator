@@ -5,6 +5,8 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const engineerCard = require('./lib/engineerCard');
+const internCard = require('./lib/internCard');
+const managerCard = require('./lib/managerCard');
 let team = [];
 let middlePage = '';
 
@@ -84,6 +86,8 @@ function inIt() {
     .then((answers) => {
         console.log(answers);
         const manager = new Manager(answers.name,answers.id,answers.email,answers.office);
+        let newManagerCard = managerCard.managerCard(answers);
+        middlePage = middlePage + newManagerCard;
         team.push(manager);
         chooseTeamMemberType();
     })
@@ -128,7 +132,6 @@ function promptEngineerQuestions() {
         team.push(engineer);
         let newEngineerCard = engineerCard.engineerCard(answers);
         middlePage = middlePage + newEngineerCard;
-        console.log(middlePage);
         chooseTeamMemberType();
     })
 }
@@ -141,6 +144,8 @@ function promptInternQuestions() {
         console.log(answers);
         const intern = new Intern(answers.name,answers.id,answers.email,answers.school);
         team.push(intern);
+        let newInternCard = internCard.internCard(answers);
+        middlePage = middlePage + newInternCard;
         chooseTeamMemberType();
     })
 }
@@ -148,7 +153,7 @@ function promptInternQuestions() {
 function createTeam() {
     console.log(team);
     const fullPage = topOfPage + middlePage + bottomOfPage;
-    fs.writeFile('index.html', fullPage, (error) => {
+    fs.writeFile(__dirname + '/dist/index.html', fullPage, (error) => {
         console.log(error);
     })
 }
@@ -163,10 +168,17 @@ const topOfPage =
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Team Profile Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href='./style.css' rel='stylesheet'>
 </head>
-<body>`;
+<body>
+<header>
+    <h1>My Team</h1>
+</header>
+<main class='container'>`;
 
 const bottomOfPage = 
-`</body>
+`</main>
+</body>
 </html>`;
