@@ -107,7 +107,6 @@ function chooseTeamMemberType() {
         name: 'member',
     })
     .then(data => {
-        console.log(data);
         switch(data.member) {
             case 'Engineer':
                 promptEngineerQuestions();
@@ -127,7 +126,6 @@ function promptEngineerQuestions() {
     inquirer
     .prompt(engineerQuestions)
     .then((answers) => {
-        console.log(answers);
         const engineer = new Engineer(answers.name,answers.id,answers.email, answers.github);
         team.push(engineer);
         let newEngineerCard = engineerCard.engineerCard(answers);
@@ -141,7 +139,6 @@ function promptInternQuestions() {
     inquirer
     .prompt(internQuestions)
     .then((answers) => {
-        console.log(answers);
         const intern = new Intern(answers.name,answers.id,answers.email,answers.school);
         team.push(intern);
         let newInternCard = internCard.internCard(answers);
@@ -151,7 +148,6 @@ function promptInternQuestions() {
 }
 
 function createTeam() {
-    console.log(team);
     const fullPage = topOfPage + middlePage + bottomOfPage;
     fs.writeFile(__dirname + '/dist/index.html', fullPage, (error) => {
         console.log(error);

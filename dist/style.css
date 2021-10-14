@@ -1,7 +1,29 @@
 header {
-    background-color: darkslategrey;
+    background-color: rgb(86, 172, 143);
     color: white;
     height: 15vh;
     justify-content: center;
     display: flex;
+    align-items: center;
+}
+
+.card { 
+    margin: 8px;
+    border: solid black 2px;
+    box-shadow: 10px 10px 10px slategray;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card-header {
+    background-color: rgb(86, 172, 143);
+    color: white;
+}
+
+.card-header p {
+    font-size: 25px;
 }
