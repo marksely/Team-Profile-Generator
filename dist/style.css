@@ -2,5 +2,6 @@ header {
     background-color: darkslategrey;
     color: white;
     height: 15vh;
-    text-align: center;
+    justify-content: center;
+    display: flex;
 }
